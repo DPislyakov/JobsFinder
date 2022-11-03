@@ -2,8 +2,12 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from backend import templates
 
-templates = Jinja2Templates(directory="backend/templates")
+import os
+
+from pathlib import Path
+
 general_pages_router = APIRouter()
 
 

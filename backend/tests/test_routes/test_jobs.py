@@ -8,7 +8,7 @@ def test_create_job(client):
         "company_url": "www.twister.com",
         "location": "Italy,Milan",
         "description": "Python Developer",
-        "date_posted": "2022-11-03"
+        "date_posted": "2022-11-03",
     }
     response = client.post("/jobs/create-job/", json.dumps(data))
     assert response.status_code == 200
@@ -23,7 +23,7 @@ def test_read_job(client):
         "company_url": "www.twister.com",
         "location": "Italy,Milan",
         "description": "Python Developer",
-        "date_posted": "2022-11-03"
+        "date_posted": "2022-11-03",
     }
     response = client.post("/jobs/create-job/", json.dumps(data))
 

@@ -3,3 +3,6 @@ from backend.db.models.jobs import Job
 from backend.db.models.users import User
 
 
+Base = Base
+Job = Job
+User = User

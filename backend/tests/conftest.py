@@ -1,20 +1,17 @@
-from typing import Any, Generator
+import os
+import sys
+from typing import Any
+from typing import Generator
 
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from backend.apis.base import api_router
 from backend.db.base import Base
 from backend.db.session import get_db
-from backend.apis.base import api_router
-
-import pytest
-
-import os
-
-import sys
 
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -58,7 +55,7 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
 
 @pytest.fixture(scope="function")
 def client(
-        app: FastAPI, db_session: SessionTesting
+    app: FastAPI, db_session: SessionTesting
 ) -> Generator[TestClient, Any, None]:
     """
     Create a new FastAPI TestClient that uses the `db_session` fixture to override

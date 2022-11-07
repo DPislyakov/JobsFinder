@@ -1,11 +1,10 @@
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-from pathlib import Path
 
-
-env_path = Path('.') / 'backend/.env'
+env_path = Path(".") / "backend/.env"
 print(env_path)
 load_dotenv(dotenv_path=env_path)
 
@@ -19,7 +18,11 @@ class Settings:
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER")
     POSTGRES_PORT: str = os.getenv("POSTGRES_PORT")
     POSTGRES_DB: str = os.getenv("POSTGRES_DB")
-    DATABASE_URL: str = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    DATABASE_URL: str = (
+        f"postgresql://"
+        f"{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
+        f"{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
 
 
 settings = Settings()

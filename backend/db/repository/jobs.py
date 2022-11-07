@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from backend.schemas.jobs import JobCreate
 from backend.db.models.jobs import Job
+from backend.schemas.jobs import JobCreate
 
 
 def create_new_job(job: JobCreate, db: Session, owner_id: int):

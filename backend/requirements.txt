@@ -8,3 +8,5 @@ python-dotenv==0.21.0
 pydantic[email]
 email_validator
 passlib[bcrypt]
+pytest==7.2.0
+requests==2.28.1

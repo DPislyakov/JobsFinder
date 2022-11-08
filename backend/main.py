@@ -7,10 +7,12 @@ from backend.apis.base import api_router
 from backend.core.config import settings
 from backend.db.base import Base
 from backend.db.session import engine
+from backend.webapps.base import api_router as web_app_router
 
 
 def include_router(app):
     app.include_router(api_router)
+    app.include_router(web_app_router)
 
 
 def configure_static(app):

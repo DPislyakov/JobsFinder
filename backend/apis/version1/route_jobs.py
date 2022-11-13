@@ -1,4 +1,5 @@
 from typing import List
+from typing import Optional
 
 from fastapi import APIRouter
 from fastapi import Depends
@@ -12,6 +13,7 @@ from backend.db.repository.jobs import create_new_job
 from backend.db.repository.jobs import delete_job_by_id
 from backend.db.repository.jobs import list_jobs
 from backend.db.repository.jobs import retrieve_job
+from backend.db.repository.jobs import search_job
 from backend.db.repository.jobs import update_job_by_id
 from backend.db.session import get_db
 from backend.schemas.jobs import JobCreate
@@ -56,7 +58,7 @@ def update_job(id: int, job: JobCreate, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Job with id {id} not found"
         )
-    return {"msg": "Successfully updated data."}
+    return {"detail": "Successfully updated data."}
 
 
 @router.delete("/delete/{id}")
@@ -73,7 +75,16 @@ def delete_job(
     print(job.owner_id, current_user.id, current_user.is_superuser)
     if job.owner_id == current_user.id or current_user.is_superuser:
         delete_job_by_id(id=id, db=db, owner_id=current_user.id)
-        return {"msg": "Successfully deleted."}
+        return {"detail": "Successfully deleted."}
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted!"
     )
+
+
+@router.get("/autocomplete")
+def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
+    jobs = search_job(term, db=db)
+    job_titles = []
+    for job in jobs:
+        job_titles.append(job.title)
+    return job_titles

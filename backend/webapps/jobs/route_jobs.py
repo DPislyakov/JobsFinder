@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Request
@@ -12,6 +14,7 @@ from backend.db.models.users import User
 from backend.db.repository.jobs import create_new_job
 from backend.db.repository.jobs import list_jobs
 from backend.db.repository.jobs import retrieve_job
+from backend.db.repository.jobs import search_job
 from backend.db.session import get_db
 from backend.schemas.jobs import JobCreate
 from backend.webapps.jobs.forms import JobCreateForm
@@ -63,3 +66,21 @@ async def create_job(request: Request, db: Session = Depends(get_db)):
             )
             return templates.TemplateResponse("jobs/create_job.html", form.__dict__)
     return templates.TemplateResponse("jobs/create_job.html", form.__dict__)
+
+
+@router.get("/delete-job/")
+def show_jobs_to_delete(request: Request, db: Session = Depends(get_db)):
+    jobs = list_jobs(db)
+    return templates.TemplateResponse(
+        "jobs/show_jobs_to_delete.html", {"request": request, "jobs": jobs}
+    )
+
+
+@router.get("/search/")
+def search(
+    request: Request, db: Session = Depends(get_db), query: Optional[str] = None
+):
+    jobs = search_job(query=query, db=db)
+    return templates.TemplateResponse(
+        "general_pages/homepage.html", {"request": request, "jobs": jobs}
+    )
